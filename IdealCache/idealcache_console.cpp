@@ -1,0 +1,19 @@
+#include <iostream>
+
+#include "idealcache.hpp"
+
+int main(int argc, char *argv[]) {
+
+    uint hits = 0, buf_len;
+    size_t cache_size;
+
+    std::cin >> cache_size >> buf_len;
+    std::vector<uint> requests(buf_len);
+    for (int i = 0; i < buf_len; i++)
+        std::cin >> requests[i];
+
+    hits = icache_hits(cache_size, buf_len, requests);
+
+    std::cout << "Total number of hits: " << hits << std::endl;
+    return 0;
+}

@@ -12,6 +12,9 @@
 #VS Code
 .vscode
 
+#Unignore Makefile
+!Makefile
+
 # Prerequisites
 *.d
 

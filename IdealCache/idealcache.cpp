@@ -1,30 +1,14 @@
-#include <iostream>
-#include <cassert>
-#include <algorithm>
-#include <list>
-#include <unordered_map>
-#include <vector>
+#include "idealcache.hpp"
 
-typedef unsigned int uint;
+unsigned int icache_hits(size_t cache_size, uint buf_len, std::vector<uint> requests) {
+    uint hits = 0;
 
-int main(int argc, char *argv[]) {
-
-    uint hits = 0, buf_len;
-    size_t cache_size;
-
-    std::cin >> cache_size >> buf_len;
-    assert(std::cin.good());
-
-    std::vector<uint> requests(buf_len);
-    for (int i = 0; i < buf_len; i++) {
-        std::cin >> requests[i];
-    }
-
-    /*Returns unordered_map filled with iterators to the first appearances of requests vector,
+    /*Create unordered_map filled with iterators to the first appearances of requests vector,
     if the element does not have future appearances, iterator is equal to vector.end()*/
-    std::unordered_map<int, std::vector<uint>::iterator> next_appearance;
-    for (int i = buf_len; i >= 0; i--) 
-        next_appearance[requests[i]] = std::find(requests.begin()+i, requests.end(), requests[i]);
+    std::unordered_map<uint, std::vector<uint>::iterator> next_appearance;
+    for (int i = buf_len-1; i >= 0; i--) {
+        next_appearance[requests[i]] = std::find(requests.begin()+i+1, requests.end(), requests[i]);
+    }
 
     std::list<uint> cache;
     for (int i=0; i<buf_len; i++) {
@@ -37,9 +21,10 @@ int main(int argc, char *argv[]) {
         if (cache.size() < cache_size) { cache.push_back(cur); continue; }
 
         //We must choose the element to delete
-        uint max_dist = -1, value_to_delete;
+        uint max_dist = 0;
+        int value_to_delete = -1;
         std::list<uint>::iterator it;
-        for (it=cache.begin(); it!=cache.end(); it++) {
+        for (it=cache.begin(); it!=cache.end(); ++it) {
             std::vector<uint>::iterator next = next_appearance[*it];
 
             //If we find a value that won't occur again, we delete it.
@@ -57,6 +42,5 @@ int main(int argc, char *argv[]) {
         cache.push_back(cur);
     }
 
-    std::cout << "Total number of hits: " << hits << std::endl;
-    return 0;
+    return hits;
 }
