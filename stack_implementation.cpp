@@ -58,10 +58,7 @@ void stack_print(struct stack* stack_point)
     {
         for (int i = 0; i < stack_point->size - stack_point->remains; i++)
         {
-            std::cout << "stack element %d: number %d HIR %d cache_residency %d stack_residency %d" << std::endl;
-                        i+1, stack_point->data[i+j]->number,
-                        stack_point->data[i+j]->HIR, stack_point->data[i+j]->cache_residency,
-                        stack_point->data[i+j]->stack_residency);
+            std::cout << "Stack element " << i+1 << ": number " << stack_point->data[i+j]->number << " HIR " << stack_point->data[i+j]->HIR << " cache_residency " << stack_point->data[i+j]->cache_residency << " stack_residency " << stack_point->data[i+j]->stack_residency << std::endl;
             if (i+j == stack_point->size - 1)  j -= stack_point->size;
         }
     }

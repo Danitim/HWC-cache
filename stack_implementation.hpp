@@ -1,11 +1,17 @@
 #ifndef STACK_IMPLEMENTATION_H
 #define STACK_IMPLEMENTATION_H
 
-
+struct block
+{
+    int number;                            //page number without hash-function used
+    int HIR;                               //LIR/HIR block status flag, 0 - LIR, 1 - HIR
+    int cache_residency;                   //cache residency flag, 0 - non-resident block, 1 - resident block
+    int stack_residency;                   //stack_residency
+};
 
 // Realization of the functions working with stack
 
-#include "lirs_algorithm.hpp"
+//#include "lirs_algorithm.hpp"
 
 struct stack
 {
