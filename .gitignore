@@ -9,6 +9,8 @@
 !*/
 # The end of the important part
 
+#VS Code
+.vscode
 
 # Prerequisites
 *.d
