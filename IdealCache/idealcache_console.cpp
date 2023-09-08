@@ -4,11 +4,11 @@
 
 int main(int argc, char *argv[]) {
 
-    uint hits = 0, buf_len;
+    int hits = 0, buf_len;
     size_t cache_size;
 
     std::cin >> cache_size >> buf_len;
-    std::vector<uint> requests(buf_len);
+    std::vector<int> requests(buf_len);
     for (int i = 0; i < buf_len; i++)
         std::cin >> requests[i];
 

@@ -1,18 +1,20 @@
 #include "idealcache.hpp"
 
-unsigned int icache_hits(size_t cache_size, uint buf_len, std::vector<uint> requests) {
-    uint hits = 0;
+int icache_hits(size_t cache_size, int buf_len, std::vector<int> requests) {
+    int hits = 0;
 
     /*Create unordered_map filled with iterators to the first appearances of requests vector,
     if the element does not have future appearances, iterator is equal to vector.end()*/
-    std::unordered_map<uint, std::vector<uint>::iterator> next_appearance;
+    std::unordered_map<int, std::vector<int>::iterator> next_appearance;
     for (int i = buf_len-1; i >= 0; i--) {
         next_appearance[requests[i]] = std::find(requests.begin()+i+1, requests.end(), requests[i]);
     }
 
-    std::list<uint> cache;
+    std::list<int> cache;
     for (int i=0; i<buf_len; i++) {
-        uint cur = requests[i];
+        int cur = requests[i];
+
+        next_appearance[cur] = std::find(requests.begin()+i+1, requests.end(), cur);
 
         //If it is a hit, we count it and continue
         if (std::find(cache.begin(), cache.end(), cur) != cache.end()) { hits ++; continue; }
@@ -21,11 +23,11 @@ unsigned int icache_hits(size_t cache_size, uint buf_len, std::vector<uint> requ
         if (cache.size() < cache_size) { cache.push_back(cur); continue; }
 
         //We must choose the element to delete
-        uint max_dist = 0;
+        int max_dist = 0;
         int value_to_delete = -1;
-        std::list<uint>::iterator it;
+        std::list<int>::iterator it;
         for (it=cache.begin(); it!=cache.end(); ++it) {
-            std::vector<uint>::iterator next = next_appearance[*it];
+            std::vector<int>::iterator next = next_appearance[*it];
 
             //If we find a value that won't occur again, we delete it.
             if (next == requests.end()) { value_to_delete = *it; break; }
