@@ -9,9 +9,7 @@ struct block
     int stack_residency;                   //stack_residency
 };
 
-// Realization of the functions working with stack
-
-//#include "lirs_algorithm.hpp"
+// Implementation of the functions working with stack
 
 struct stack
 {
