@@ -14,6 +14,7 @@ struct block *hash_get_block(int number) {
         hash_table[number]->HIR = 1;
         hash_table[number]->cache_residency = 0;
         hash_table[number]->stack_residency = 0;
+        hash_table[number]->number = number;
     }
     return hash_table[number];
 }

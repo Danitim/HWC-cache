@@ -1,5 +1,5 @@
-#ifndef STACK_IMPLEMENTATION_H
-#define STACK_IMPLEMENTATION_H
+#ifndef STACK_IMPLEMENTATION_HPP
+#define STACK_IMPLEMENTATION_HPP
 
 struct block
 {
@@ -38,4 +38,4 @@ void stack_pruning (struct stack* stack_point);           // removes the HIR blo
 
 
 
-#endif /*STACK_IMPLEMENTATION_H*/
+#endif /*STACK_IMPLEMENTATION_HPP*/
