@@ -1,4 +1,4 @@
-#include "idealcache.hpp"
+#include "ideal_cache.hpp"
 
 int icache_hits(size_t cache_size, int buf_len, std::vector<int> requests) {
     int hits = 0;
