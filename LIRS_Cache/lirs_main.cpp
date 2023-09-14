@@ -13,7 +13,7 @@ int main()
     struct block *accessed_block;
     struct block *first_pseudo_block = (struct block *)calloc(1, sizeof(struct block));
 
-    std::cout << "Print cache size: ";
+//    std::cout << "Print cache size: ";
     std::cin >> cache_size;
     if (cache_size < 0) {
         std::cout << "Can't be negative number " << std::endl;
@@ -23,7 +23,7 @@ int main()
     if (HIR_section_size == 0)
         HIR_section_size = 1;
 
-    std::cout << "Print amount of pages: ";
+//    std::cout << "Print amount of pages: ";
     std::cin >> page_amount;
     if (page_amount < 0) {
         std::cout << "Can't be negative number " << std::endl;
@@ -71,6 +71,6 @@ int main()
             LIR_access(accessed_block);
         }
     }
-    std::cout << "Cache hits amount: " << cache_hit << std::endl;
+    std::cout /*<< "Cache hits amount: "*/ << cache_hit << std::endl;
     return 0;
 }

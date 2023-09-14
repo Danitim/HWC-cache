@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 
-#include "idealcache.hpp"
+#include "ideal_cache.hpp"
 
 int main(int argc, char *argv[]) {
 

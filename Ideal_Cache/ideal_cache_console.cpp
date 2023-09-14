@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "idealcache.hpp"
+#include "ideal_cache.hpp"
 
 int main(int argc, char *argv[]) {
 
@@ -14,6 +14,6 @@ int main(int argc, char *argv[]) {
 
     hits = icache_hits(cache_size, buf_len, requests);
 
-    std::cout << "Total number of hits: " << hits << std::endl;
+    std::cout /*<< "Total number of hits: " */<< hits << std::endl;
     return 0;
 }
