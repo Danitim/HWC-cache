@@ -14,17 +14,17 @@ int icache_hits(size_t cache_size, int buf_len, std::vector<int> requests) {
     for (int i=0; i<buf_len; i++) {
         int cur = requests[i];
 
-        next_appearance[cur] = std::find(requests.begin()+i+1, requests.end(), cur);
-
         //If it is a hit, we count it and continue
         if (std::find(cache.begin(), cache.end(), cur) != cache.end()) { hits ++; continue; }
 
         //If the cache is not full, we add current element to the cache and continue
         if (cache.size() < cache_size) { cache.push_back(cur); continue; }
 
+        next_appearance[cur] = std::find(requests.begin()+i+1, requests.end(), cur);
+
         //We must choose the element to delete
-        int max_dist = 0;
-        int value_to_delete = -1;
+        int max_dist = next_appearance[cur] - requests.begin();
+        int value_to_delete = cur;
         std::list<int>::iterator it;
         for (it=cache.begin(); it!=cache.end(); ++it) {
             std::vector<int>::iterator next = next_appearance[*it];
