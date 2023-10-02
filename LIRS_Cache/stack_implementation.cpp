@@ -1,92 +1,30 @@
 #include <iostream>
-#include <assert.h>
+#include <list>
 #include "stack_implementation.hpp"
 
-void stack_create(struct stack* stack_point, size_t stack_memory)
-{
-    stack_point->top_number = -1;
-    stack_point->bottom_number = 0;
-    stack_point->size = stack_memory;
-    stack_point->remains = stack_memory;
-    stack_point->data = (struct block**)calloc(sizeof(struct block*), stack_memory);
+void Stack::stack_push(struct block *accessed_block) {
+    stack_list.push_front(accessed_block);
+    accessed_block->stack_residency++;
 }
 
-void stack_push(struct stack* stack_point, struct block* x)
-{
-    (stack_point->top_number)++;
-    (stack_point->remains)--;
-    if (stack_point->top_number == stack_point->size)
-        stack_point->top_number = 0;
-    assert(stack_point->remains >= 0 && "ERROR: stack is full");
-    stack_point->data[stack_point->top_number] = x;
-    x->stack_residency++;
+struct block* Stack::stack_pop() {
+    struct block *accessed_block = stack_list.front();
+    accessed_block->stack_residency--;
+    stack_list.pop_front();
+    return accessed_block;
 }
 
-struct block* stack_pop(struct stack* stack_point)
-{
-    stack_point->top_number--;
-    (stack_point->remains)++;
-    if (stack_point->top_number < 0)
-        stack_point->top_number == stack_point->size - 1;
-    assert(stack_point->remains <= stack_point->size && "ERROR: attempt to delete in an empty stack");
-    stack_point->data[stack_point->top_number + 1]->stack_residency--;
-    return stack_point->data[stack_point->top_number + 1];
+struct block* Stack::stack_get_top() {
+    return stack_list.front();
 }
 
-struct block* stack_get(struct stack* stack_point)
-{
-    return stack_point->data[stack_point->top_number + 1];
+struct block* Stack::stack_get_bottom() {
+    return stack_list.back();
 }
 
-void stack_print(struct stack* stack_point)
-{
-    int j = stack_point->bottom_number;
-    if  (stack_point->remains == stack_point->size)
-        std::cout << "Empty stack" << std::endl;
-    else
-    {
-        for (int i = 0; i < stack_point->size - stack_point->remains; i++)
-        {
-            std::cout << "Stack element " << i+1 << ": number " << stack_point->data[i+j]->number << " HIR " << stack_point->data[i+j]->HIR << " cache_residency " << stack_point->data[i+j]->cache_residency << " stack_residency " << stack_point->data[i+j]->stack_residency << std::endl;
-            if (i+j == stack_point->size - 1)  j -= stack_point->size;
-        }
+void Stack::stack_pruning() {
+    while(stack_list.back()->HIR == 1) {
+        stack_list.back()->stack_residency--;
+        stack_list.pop_back();
     }
-}
-
-int  stack_size(const struct stack* stack_point)
-{
-    return stack_point->size;
-}
-
-int  stack_count_element(const struct stack* stack_point)
-{
-    return stack_point->size - stack_point->remains;
-}
-
-
-void stack_delete(struct stack* stack_point)
-{
-    assert(stack_point->data != NULL && "ERROR: attempt to free null pointer");
-    stack_point->top_number= -1;
-    stack_point->bottom_number= -1;
-    free(stack_point->data);
-}
-
-void stack_pruning (struct stack* stack_point)
-{
-    int count = 0;
-    for(int i = stack_point->bottom_number; stack_point->data[i]->HIR == 1;)
-    {
-        count += 1;
-        stack_point->data[i]->stack_residency--;
-        stack_point->remains++;
-        assert(stack_point->remains < stack_point->size &&
-        "ERROR: attempt to delete in an empty stack, maybe because there was no LIR in the glass"); 
-        i++;
-        i = i%stack_point->size;
-
-    }
-    stack_point->bottom_number += count;
-    if (stack_point->bottom_number >= stack_point->size)
-        stack_point->bottom_number -= stack_point->size;
 }

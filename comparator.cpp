@@ -10,7 +10,7 @@ int main() {
     int cache_hit = 0;
     int lirs_start_time = 0, lirs_end_time = 0, ideal_start_time = 0, ideal_end_time = 0;
     std::ifstream test1;
-    test1.open("comparator_test.txt");
+    test1.open("Tests/comparator_test.txt");
 
     lirs_start_time = clock();
     cache_hit = lirs_file_read(test1);
@@ -19,7 +19,7 @@ int main() {
 
     test1.close();
     std::ifstream test2;
-    test2.open("comparator_test.txt");
+    test2.open("Tests/comparator_test.txt");
     
     ideal_start_time = clock();
     int cache_size = 0, pages_amount = 0;
