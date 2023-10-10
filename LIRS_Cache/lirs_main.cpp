@@ -31,6 +31,7 @@ int main()
         return 0;
     }
 
+//    std::cout << "Cache: " << cache_size << "; HIR section: " << HIR_section_size << std::endl;
     for (int j = 0; j < cache_size - HIR_section_size; j++)                       //filling cache with LIR blocks
     {
         std::cin >> page_number;
@@ -40,6 +41,7 @@ int main()
         if (hash_table.count(page_number) == 1) {
             cache_hit++;
             j--;
+            cache_size++;
         }
         else
             hash_table[page_number] = (struct block *)calloc(1, sizeof(struct block));
@@ -51,7 +53,7 @@ int main()
         S.stack_push(hash_table[page_number]);
 
 //        std::cout << hash_table[page_number]->number << " " << j << std::endl;
-
+//    std::cout << "Number: " << page_number << "; j: " << cache_hit << std::endl;
     }
 
     first_pseudo_block->number = (-1)*HIR_section_size;                           //creating pseudo-empty list
@@ -64,7 +66,7 @@ int main()
         list_Q.push_front(pseudo_block);
     }
 
-    for (int i = cache_size-HIR_section_size; i < page_amount; i++) {             //main cycle
+    for (int i = cache_size; i < page_amount + 1; i++) {             //main cycle
         std::cin >> page_number;
         accessed_block = hash_get_block(page_number);
         if ((accessed_block->HIR == 1) && (accessed_block->cache_residency == 1)) {
@@ -77,6 +79,7 @@ int main()
             cache_hit++;
             LIR_access(accessed_block, S);
         }
+//        std::cout << "Number: " << page_number << "; Hits: " << cache_hit << std::endl;
     }
     std::cout /*<< "Cache hits amount: "*/ << cache_hit << std::endl;
     return 0;
